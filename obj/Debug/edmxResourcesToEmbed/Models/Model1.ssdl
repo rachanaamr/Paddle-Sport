@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="paddleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="book">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="loc_id" Type="int" />
+    <Property Name="date" Type="date" />
+    <Property Name="courts" Type="int" />
+    <Property Name="s_time" Type="time" Precision="7" />
+    <Property Name="duration" Type="int" />
+    <Property Name="amount" Type="float" />
+  </EntityType>
+  <EntityType Name="court">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="location" Type="varchar" MaxLength="50" />
+    <Property Name="courts" Type="int" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="user_id" Type="varchar" MaxLength="50" />
+    <Property Name="pwd" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_book_book">
+    <End Role="book" Type="Self.book" Multiplicity="1" />
+    <End Role="book1" Type="Self.book" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="book1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_book_court">
+    <End Role="court" Type="Self.court" Multiplicity="0..1" />
+    <End Role="book" Type="Self.book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="court">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="book">
+        <PropertyRef Name="loc_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_user">
+    <End Role="user" Type="Self.user" Multiplicity="1" />
+    <End Role="user1" Type="Self.user" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="paddleModelStoreContainer">
+    <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="court" EntityType="Self.court" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_book_book" Association="Self.FK_book_book">
+      <End Role="book" EntitySet="book" />
+      <End Role="book1" EntitySet="book" />
+    </AssociationSet>
+    <AssociationSet Name="FK_book_court" Association="Self.FK_book_court">
+      <End Role="court" EntitySet="court" />
+      <End Role="book" EntitySet="book" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_user" Association="Self.FK_user_user">
+      <End Role="user" EntitySet="user" />
+      <End Role="user1" EntitySet="user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

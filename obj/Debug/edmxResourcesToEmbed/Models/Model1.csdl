@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="paddleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="book">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="loc_id" Type="Int32" />
+    <Property Name="date" Type="DateTime" Precision="0" />
+    <Property Name="courts" Type="Int32" />
+    <Property Name="s_time" Type="Time" Precision="7" />
+    <Property Name="duration" Type="Int32" />
+    <Property Name="amount" Type="Double" />
+    <NavigationProperty Name="book1" Relationship="Self.FK_book_book" FromRole="book" ToRole="book1" />
+    <NavigationProperty Name="book2" Relationship="Self.FK_book_book" FromRole="book1" ToRole="book" />
+    <NavigationProperty Name="court" Relationship="paddleModel.FK_book_court" FromRole="book" ToRole="court" />
+  </EntityType>
+  <EntityType Name="court">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="courts" Type="Int32" />
+    <NavigationProperty Name="books" Relationship="paddleModel.FK_book_court" FromRole="court" ToRole="book" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="user1" Relationship="Self.FK_user_user" FromRole="user" ToRole="user1" />
+    <NavigationProperty Name="user2" Relationship="Self.FK_user_user" FromRole="user1" ToRole="user" />
+  </EntityType>
+  <Association Name="FK_book_book">
+    <End Role="book" Type="Self.book" Multiplicity="1" />
+    <End Role="book1" Type="Self.book" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="book">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="book1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_user">
+    <End Role="user" Type="Self.user" Multiplicity="1" />
+    <End Role="user1" Type="Self.user" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="user1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="paddleEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="books" EntityType="Self.book" />
+    <EntitySet Name="courts" EntityType="Self.court" />
+    <EntitySet Name="users" EntityType="Self.user" />
+    <AssociationSet Name="FK_book_book" Association="Self.FK_book_book">
+      <End Role="book" EntitySet="books" />
+      <End Role="book1" EntitySet="books" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_user" Association="Self.FK_user_user">
+      <End Role="user" EntitySet="users" />
+      <End Role="user1" EntitySet="users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_book_court" Association="paddleModel.FK_book_court">
+      <End Role="court" EntitySet="courts" />
+      <End Role="book" EntitySet="books" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_book_court">
+    <End Type="paddleModel.court" Role="court" Multiplicity="0..1" />
+    <End Type="paddleModel.book" Role="book" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="court">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="book">
+        <PropertyRef Name="loc_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

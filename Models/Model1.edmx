@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="paddleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="book">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="loc_id" Type="int" />
+          <Property Name="date" Type="date" />
+          <Property Name="courts" Type="int" />
+          <Property Name="s_time" Type="time" Precision="7" />
+          <Property Name="duration" Type="int" />
+          <Property Name="amount" Type="float" />
+        </EntityType>
+        <EntityType Name="court">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="location" Type="varchar" MaxLength="50" />
+          <Property Name="courts" Type="int" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="user_id" Type="varchar" MaxLength="50" />
+          <Property Name="pwd" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_book_book">
+          <End Role="book" Type="Self.book" Multiplicity="1" />
+          <End Role="book1" Type="Self.book" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="book">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="book1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_book_court">
+          <End Role="court" Type="Self.court" Multiplicity="0..1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="court">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="loc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user1" Type="Self.user" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="paddleModelStoreContainer">
+          <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="court" EntityType="Self.court" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_book_book" Association="Self.FK_book_book">
+            <End Role="book" EntitySet="book" />
+            <End Role="book1" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_court" Association="Self.FK_book_court">
+            <End Role="court" EntitySet="court" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_user" Association="Self.FK_user_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="user1" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="paddleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="book">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="loc_id" Type="Int32" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="courts" Type="Int32" />
+          <Property Name="s_time" Type="Time" Precision="7" />
+          <Property Name="duration" Type="Int32" />
+          <Property Name="amount" Type="Double" />
+          <NavigationProperty Name="book1" Relationship="Self.FK_book_book" FromRole="book" ToRole="book1" />
+          <NavigationProperty Name="book2" Relationship="Self.FK_book_book" FromRole="book1" ToRole="book" />
+          <NavigationProperty Name="court" Relationship="paddleModel.FK_book_court" FromRole="book" ToRole="court" />
+        </EntityType>
+        <EntityType Name="court">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="courts" Type="Int32" />
+          <NavigationProperty Name="books" Relationship="paddleModel.FK_book_court" FromRole="court" ToRole="book" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="user1" Relationship="Self.FK_user_user" FromRole="user" ToRole="user1" />
+          <NavigationProperty Name="user2" Relationship="Self.FK_user_user" FromRole="user1" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_book_book">
+          <End Role="book" Type="Self.book" Multiplicity="1" />
+          <End Role="book1" Type="Self.book" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="book">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="book1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="user1" Type="Self.user" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="user1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="paddleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="books" EntityType="Self.book" />
+          <EntitySet Name="courts" EntityType="Self.court" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <AssociationSet Name="FK_book_book" Association="Self.FK_book_book">
+            <End Role="book" EntitySet="books" />
+            <End Role="book1" EntitySet="books" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_user" Association="Self.FK_user_user">
+            <End Role="user" EntitySet="users" />
+            <End Role="user1" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_court" Association="paddleModel.FK_book_court">
+            <End Role="court" EntitySet="courts" />
+            <End Role="book" EntitySet="books" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_book_court">
+          <End Type="paddleModel.court" Role="court" Multiplicity="0..1" />
+          <End Type="paddleModel.book" Role="book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="court">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="loc_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="paddleModelStoreContainer" CdmEntityContainer="paddleEntities">
+          <EntitySetMapping Name="books">
+            <EntityTypeMapping TypeName="paddleModel.book">
+              <MappingFragment StoreEntitySet="book">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="loc_id" ColumnName="loc_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="courts" ColumnName="courts" />
+                <ScalarProperty Name="s_time" ColumnName="s_time" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="courts">
+            <EntityTypeMapping TypeName="paddleModel.court">
+              <MappingFragment StoreEntitySet="court">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="courts" ColumnName="courts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="paddleModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="pwd" ColumnName="pwd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

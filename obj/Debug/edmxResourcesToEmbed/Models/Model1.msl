@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="paddleModelStoreContainer" CdmEntityContainer="paddleEntities">
+    <EntitySetMapping Name="books">
+      <EntityTypeMapping TypeName="paddleModel.book">
+        <MappingFragment StoreEntitySet="book">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="loc_id" ColumnName="loc_id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="courts" ColumnName="courts" />
+          <ScalarProperty Name="s_time" ColumnName="s_time" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="courts">
+      <EntityTypeMapping TypeName="paddleModel.court">
+        <MappingFragment StoreEntitySet="court">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="courts" ColumnName="courts" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="paddleModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="user_id" ColumnName="user_id" />
+          <ScalarProperty Name="pwd" ColumnName="pwd" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
